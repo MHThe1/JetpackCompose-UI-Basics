@@ -81,7 +81,7 @@ fun SimpleRow() {
 @Composable
 fun GreetingPreview() {
     FirstAppTheme {
-//        Greeting("Tanvir")
+//        This is how the code looks after UI Basics: Row and Column episode
         SimpleRow()
     }
 }
