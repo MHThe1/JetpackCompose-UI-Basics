@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -143,11 +144,23 @@ fun TextCustomized2()
     }
 }
 
+@Composable
+fun TextCustomized3()
+{
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Text(text="Hello To all!".repeat(45),
+            maxLines = 3, overflow = TextOverflow.Ellipsis)
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     FirstAppTheme {
 //        MainScreen()
-        TextCustomized2()
+        TextCustomized3()
     }
 }
