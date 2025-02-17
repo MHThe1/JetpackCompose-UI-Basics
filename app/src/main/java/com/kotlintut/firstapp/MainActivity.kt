@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    val count = remember { mutableIntStateOf(0) }
+    val name = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("") }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,101 +71,41 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 .background(Color.LightGray),
             contentAlignment = Alignment.Center
         ) {
-            Text("Counter App",
+            Text("User Input",
                 style = MaterialTheme.typography.headlineLarge)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Column (
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Counter: ${count.intValue}")
-            Button(onClick = {count.intValue++}) {
-                Text(text = "Up")
-            }
-            Button(onClick = {
-                if (count.intValue > 0) count.intValue--
-            }) {
-                Text(text = "Down")
-            }
-            Button(onClick = {
-                count.intValue += 5
-            }) {
-                Text(text = "Up by 5")
+            TextField(
+                value = name.value,
+                onValueChange = { newName -> name.value = newName },
+                label = { Text("Enter your name")}
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = email.value,
+                onValueChange = { newEmail -> email.value = newEmail },
+                label = { Text("Enter your Email")}
+            )
+
+            val isEmailValid = email.value.contains("@") && email.value.contains(".")
+            if(!isEmailValid) {
+                Text(text = "Email is invalid",
+                    color = Color.Red)
             }
         }
 
-    }
-}
 
-@Composable
-fun TextCustomized()
-    {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Text(
-            text = "Compose Bangla",
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primary)
-                .fillMaxWidth()
-                .padding(20.dp),
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-            fontStyle = FontStyle.Italic,
-            fontWeight = FontWeight.ExtraBold,
-            textAlign = TextAlign.Center
-        )
 
-    }
-}
-
-@Composable
-fun TextCustomized2()
-{
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Text(
-            buildAnnotatedString {
-                withStyle(
-                    style = SpanStyle(
-                        color = Color.Magenta,
-                        fontSize = 60.sp,
-                        fontWeight = FontWeight.ExtraBold
-                    )
-                ) {
-                    append("M")
-                }
-                append("E")
-                append("H")
-                append("E")
-                append("D")
-                append("I")
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
-                .padding(20.dp),
-            color = Color.White
-        )
-
-    }
-}
-
-@Composable
-fun TextCustomized3()
-{
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Text(text="Hello To all!".repeat(45),
-            maxLines = 3, overflow = TextOverflow.Ellipsis)
     }
 }
 
