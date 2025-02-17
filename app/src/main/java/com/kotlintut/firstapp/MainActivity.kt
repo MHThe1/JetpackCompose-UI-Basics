@@ -14,10 +14,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,6 +55,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
+    val count = remember { mutableIntStateOf(0) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,29 +67,33 @@ fun MainScreen(modifier: Modifier = Modifier) {
                 .background(Color.LightGray),
             contentAlignment = Alignment.Center
         ) {
-            Text("JetPack Compose",
+            Text("Counter App",
                 style = MaterialTheme.typography.headlineLarge)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Column{
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ){
-                Text("First Text", modifier = Modifier.weight(1f).background(Color.Green))
-                Text("Second Text", modifier = Modifier.weight(1f).background(Color.Yellow))
-                Text("Last Text", modifier = Modifier.weight(1f).background(Color.Red))
+        Column (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Counter: ${count.intValue}")
+            Button(onClick = {count.intValue++}) {
+                Text(text = "Up")
             }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ){
-                Text("Third Text", modifier = Modifier.weight(1f).background(Color.Yellow))
-                Text("Fourth Text", modifier = Modifier.weight(1f).background(Color.Green))
+            Button(onClick = {
+                if (count.intValue > 0) count.intValue--
+            }) {
+                Text(text = "Down")
+            }
+            Button(onClick = {
+                count.intValue += 5
+            }) {
+                Text(text = "Up by 5")
             }
         }
+
     }
 }
 
@@ -160,7 +169,6 @@ fun TextCustomized3()
 @Composable
 fun GreetingPreview() {
     FirstAppTheme {
-//        MainScreen()
-        TextCustomized3()
+        MainScreen()
     }
 }
