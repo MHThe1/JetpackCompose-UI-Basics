@@ -1,42 +1,35 @@
 package com.kotlintut.firstapp
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kotlintut.firstapp.ui.theme.FirstAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -56,9 +49,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    val name = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-
 
     Column(
         modifier = Modifier
@@ -68,44 +58,107 @@ fun MainScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(Color.LightGray),
-            contentAlignment = Alignment.Center
+                .background(Color.LightGray)
+                .padding(16.dp),
+            contentAlignment = Alignment.BottomStart
         ) {
-            Text("User Input",
+            Text("Cards",
                 style = MaterialTheme.typography.headlineLarge)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(4.dp),
+        SimpleCard()
+        ImageCard()
+        ClickableCard()
+        StyledCard()
+
+    }
+}
+
+
+@Composable
+fun SimpleCard() {
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+    ) {
+        Text(
+            text = "This is a simple Card",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
+
+    }
+}
+
+@Composable
+fun ImageCard() {
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(6.dp)
+    ) {
+        Column (
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TextField(
-                value = name.value,
-                onValueChange = { newName -> name.value = newName },
-                label = { Text("Enter your name")}
+            Image(
+                painter = painterResource(id = R.drawable.my_image),
+                contentDescription = "My Image",
+                modifier = Modifier.fillMaxWidth()
+            )
+            Text(
+                text = "This is a Image Card",
+                modifier = Modifier.padding(16.dp),
+                style = MaterialTheme.typography.bodyMedium
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
-
-            TextField(
-                value = email.value,
-                onValueChange = { newEmail -> email.value = newEmail },
-                label = { Text("Enter your Email")}
-            )
-
-            val isEmailValid = email.value.contains("@") && email.value.contains(".")
-            if(!isEmailValid) {
-                Text(text = "Email is invalid",
-                    color = Color.Red)
+            Button(
+                onClick = {},
+                modifier = Modifier.padding(4.dp)
+            ) {
+                Text("Click me!")
             }
         }
+    }
+}
 
 
+@Composable
+fun ClickableCard() {
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .clickable(onClick = {}),
+        elevation = CardDefaults.cardElevation(6.dp)
+    ) {
+        Text(
+            text = "Clickable Card",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
 
+}
+
+@Composable
+fun StyledCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Cyan),
+        shape = RectangleShape,
+        elevation = CardDefaults.cardElevation(6.dp)
+    ) {
+        Text(
+            text = "Styled Card",
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
