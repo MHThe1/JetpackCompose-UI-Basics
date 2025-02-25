@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,19 +14,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kotlintut.firstapp.ui.theme.FirstAppTheme
@@ -58,111 +54,83 @@ fun MainScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(Color.LightGray)
+                .background(MaterialTheme.colorScheme.primary)
                 .padding(16.dp),
             contentAlignment = Alignment.BottomStart
         ) {
-            Text("Cards",
-                style = MaterialTheme.typography.headlineLarge)
+            Text("LazyColumn",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary)
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        SimpleCard()
-        ImageCard()
-        ClickableCard()
-        StyledCard()
 
+//        SimpleLazyColumn()
+        TaskLazyColumn()
     }
 }
 
 
 @Composable
-fun SimpleCard() {
-    Card (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-    ) {
-        Text(
-            text = "This is a simple Card",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium
-        )
-
-    }
-}
-
-@Composable
-fun ImageCard() {
-    val context = LocalContext.current
-    Card (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        elevation = CardDefaults.cardElevation(6.dp)
-    ) {
-        Column (
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.my_image),
-                contentDescription = "My Image",
-                modifier = Modifier.fillMaxWidth()
-            )
+fun SimpleLazyColumn() {
+    LazyColumn {
+        items(40) { i ->
             Text(
-                text = "This is a Image Card",
-                modifier = Modifier.padding(16.dp),
-                style = MaterialTheme.typography.bodyMedium
+                text= "Item number $i",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
             )
 
-            Button(
-                onClick = {Toast.makeText(context, "Click me button was clicked!", Toast.LENGTH_SHORT).show()},
-                modifier = Modifier.padding(4.dp)
-            ) {
-                Text("Click me!")
-            }
         }
     }
 }
 
 
-@Composable
-fun ClickableCard() {
-    val context = LocalContext.current
-    Card (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable(onClick = { Toast.makeText(context, "Clickable Card clicked!", Toast.LENGTH_SHORT).show() }),
-        elevation = CardDefaults.cardElevation(6.dp)
-    ) {
-        Text(
-            text = "Clickable Card",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
+data class Task(val id: Int, val title: String)
 
+val taskList = listOf(
+    Task(1, "Buy tomato"),
+    Task(2, "Complete quiz prep"),
+    Task(3, "Read a book"),
+    Task(4, "Exercise"),
+    Task(5, "Play some game"),
+    Task(6, "Clean the room"),
+    Task(7, "Watch some tutorials"),
+    Task(8, "Practice android development"),
+    Task(9, "Plan the next day"),
+    Task(10, "Cook some food")
+)
+
+@Composable
+fun TaskLazyColumn() {
+    LazyColumn {
+        items(taskList) { task ->
+            TaskItem(task)
+        }
+    }
 }
 
 @Composable
-fun StyledCard() {
+fun TaskItem(task: Task) {
+    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Cyan),
-        shape = RectangleShape,
-        elevation = CardDefaults.cardElevation(6.dp)
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .clickable(onClick = {Toast.makeText(context, "Clicked on ${task.title}", Toast.LENGTH_SHORT).show()})
     ) {
         Text(
-            text = "Styled Card",
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.bodyMedium
+            text = task.title,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
