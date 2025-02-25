@@ -1,7 +1,7 @@
 package com.kotlintut.firstapp
 
 import android.os.Bundle
-import android.widget.Button
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -27,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -95,6 +95,7 @@ fun SimpleCard() {
 
 @Composable
 fun ImageCard() {
+    val context = LocalContext.current
     Card (
         modifier = Modifier
             .fillMaxWidth()
@@ -116,7 +117,7 @@ fun ImageCard() {
             )
 
             Button(
-                onClick = {},
+                onClick = {Toast.makeText(context, "Click me button was clicked!", Toast.LENGTH_SHORT).show()},
                 modifier = Modifier.padding(4.dp)
             ) {
                 Text("Click me!")
@@ -128,11 +129,12 @@ fun ImageCard() {
 
 @Composable
 fun ClickableCard() {
+    val context = LocalContext.current
     Card (
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable(onClick = {}),
+            .clickable(onClick = { Toast.makeText(context, "Clickable Card clicked!", Toast.LENGTH_SHORT).show() }),
         elevation = CardDefaults.cardElevation(6.dp)
     ) {
         Text(
