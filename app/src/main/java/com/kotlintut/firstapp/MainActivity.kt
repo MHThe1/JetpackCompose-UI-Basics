@@ -59,7 +59,6 @@ fun MainScreen(modifier: Modifier = Modifier) {
     val name = remember { mutableStateOf("") }
     val email = remember { mutableStateOf("") }
 
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -77,7 +76,40 @@ fun MainScreen(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Column(
+
+        Column (
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Counter: ${count.intValue}")
+            Button(onClick = {count.intValue++}) {
+                Text(text = "Up")
+            }
+            Button(onClick = {
+                if (count.intValue > 0) count.intValue--
+            }) {
+                Text(text = "Down")
+            }
+            Button(onClick = {
+                count.intValue += 5
+            }) {
+                Text(text = "Up by 5")
+            }
+        }
+
+    }
+}
+
+@Composable
+fun TextCustomized()
+    {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Text(
+            text = "Compose Bangla",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(4.dp),
